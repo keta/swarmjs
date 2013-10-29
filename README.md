@@ -12,7 +12,7 @@ First, create the swarm:
 var swarm = new Swarm({ interval: 1000, limit: 5 });
 ```
 
-Next, start addnimg callbacks:
+Next, start addimg callbacks:
 
 ```js
 swarm.add(callback);
