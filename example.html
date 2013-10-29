@@ -1,0 +1,39 @@
+<!doctype>
+<html>
+<head>
+    <title>SwarmJS</title>
+</head>
+<body>
+    <p></p>
+    <script src="swarm.js"></script>
+    <script>
+    (function (window, document) {
+
+        var callback = function (id) {
+            document.writeln("Called " + id + "<br>");
+        };
+
+        window.swarm = new Swarm({
+            interval: 1000,
+            limit: 10,
+            countTotal: true
+        });
+
+        var func = function (id) {
+            return function () {
+                console.log("Added " + id);
+                window.swarm.add(callback, [id]);
+            };
+        };
+
+        for (var i = 0, l = 100; i < l; i++) {
+            // Shuffle callback adding time
+            setTimeout(func(i), Math.floor(Math.random() * 50));
+        }
+
+    })(window, document);
+    </script>
+
+
+</body>
+</html>
