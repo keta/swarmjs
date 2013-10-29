@@ -1,3 +1,13 @@
+/**
+ * SwarmJS 1.0
+ *
+ * Javascript callback manager
+ * http://github.com/keta/swarmjs
+ *
+ * Copyright 2013, Aleksandr "keta" Kavun
+ * Licensed under the MIT license
+ * http://www.opensource.org/licenses/mit-license.php
+ */
 var Swarm = (function () {
 
     /**
