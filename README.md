@@ -1,11 +1,11 @@
 SwarmJS
 =======
 
-SwarmJS is callback manager for Javascript. It allows to limit calls per interval.
+SwarmJS is a callback manager for Javascript.
 
-It is useful when using AJAX API which limits requests per second, but every request should be delivered.
+It allows to limit calls per interval, which is useful when using AJAX API which limits requests per second, but every request should be delivered.
 
-Swarm does not guarantee that callbacks execution will be executed in the same order they were added.
+Swarm does not guarantee that callbacks will be executed in the same order they were added.
 
 
 Usage
