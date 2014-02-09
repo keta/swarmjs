@@ -4,7 +4,7 @@
  * Javascript callback manager
  * http://github.com/keta/swarmjs
  *
- * Copyright 2013, Aleksandr "keta" Kavun
+ * Copyright 2013-2014, Aleksandr "keta" Kavun
  * Licensed under the MIT license
  * http://www.opensource.org/licenses/mit-license.php
  */
@@ -28,7 +28,6 @@
         if (this.options.countTotal) {
             this.totalCalls = 0;
         }
-
     };
 
     /**
