@@ -4,36 +4,55 @@
     <title>SwarmJS</title>
 </head>
 <body>
-    <p></p>
-    <script src="swarm.js"></script>
-    <script>
-    (function (window, document) {
+<h1>SwarmJS example</h1>
 
-        var callback = function (id) {
-            document.writeln("Called " + id + "<br>");
-        };
+<pre id="log"></pre>
+<script src="swarm.js"></script>
+<script>
+    (function () {
 
-        window.swarm = new Swarm({
+        var swarm = new Swarm({
             interval: 1000,
             limit: 10,
             countTotal: true
         });
 
-        var func = function (id) {
-            return function () {
-                console.log("Added " + id);
-                window.swarm.add(callback, [id]);
+        function writeLog(str) {
+            var timestamp = function () {
+                var date = new Date();
+                var zeroPad = function (num, len) {
+                    return ('000' + num).slice(-(len || 2));
+                };
+                return date.getFullYear() + '/'
+                    + zeroPad(date.getMonth() + 1) + '/'
+                    + zeroPad(date.getDate()) + ' '
+                    + zeroPad(date.getHours()) + ':'
+                    + zeroPad(date.getMinutes()) + ':'
+                    + zeroPad(date.getSeconds()) + '.'
+                    + zeroPad(date.getMilliseconds(), 3);
             };
-        };
-
-        for (var i = 0, l = 100; i < l; i++) {
-            // Shuffle callback adding time
-            setTimeout(func(i), Math.floor(Math.random() * 50));
+            log.innerHTML += timestamp() + ' ' + str + '\n';
         }
 
-    })(window, document);
-    </script>
+        function callback(id) {
+            writeLog('Called #' + id);
+        }
 
+        for (var i = 0, l = 100; i < l; i++) {
+            // shuffle callback adding time
+            setTimeout(
+                (function (id) {
+                    return function () {
+                        writeLog('Added #' + id);
+                        swarm.add(callback, [id]);
+                    };
+                }(i)),
+                Math.floor(Math.random() * 50)
+            );
+        }
+
+    }());
+</script>
 
 </body>
 </html>

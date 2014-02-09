@@ -1,5 +1,5 @@
 /**
- * SwarmJS 1.0
+ * SwarmJS 1.0.1
  *
  * Javascript callback manager
  * http://github.com/keta/swarmjs
@@ -8,27 +8,7 @@
  * Licensed under the MIT license
  * http://www.opensource.org/licenses/mit-license.php
  */
-var Swarm = (function () {
-
-    /**
-     * @param {Object} obj1
-     * @param {Object} [obj2]
-     * @returns {Object}
-     */
-    var extend = function (obj1, obj2) {
-        var result = {};
-        var args = Array.prototype.slice.call(arguments);
-        for (var i = 0, l = args.length; i < l; i++) {
-            if (args[i]) {
-                for (var o in args[i]) {
-                    if (args[i].hasOwnProperty(o)) {
-                        result[o] = args[i][o];
-                    }
-                }
-            }
-        }
-        return result;
-    };
+(function () {
 
     /**
      * Swarm class
@@ -36,13 +16,19 @@ var Swarm = (function () {
      * @constructor
      */
     var Swarm = function (opts) {
-        this.options = extend(this.defaults, opts);
+        this.options = opts || {};
+        for (var o in this.defaults) {
+            if (!(o in this.options)) {
+                this.options[o] = this.defaults[o];
+            }
+        }
+
         this.currentTick = 0;
         this.callsCount = 0;
-
         if (this.options.countTotal) {
             this.totalCalls = 0;
         }
+
     };
 
     /**
@@ -73,7 +59,7 @@ var Swarm = (function () {
 
     /**
      * Gets tick id for the interval
-     * @returns {Number}
+     * @returns {number}
      */
     Swarm.prototype.getTick = function () {
         return Math.floor((new Date()) / (this.options.interval || 1));
@@ -97,7 +83,7 @@ var Swarm = (function () {
      * Adds callback to the swarm
      * @param {Function} func Callback function
      * @param {Array} [args] Arguments list
-     * @param {Object} [scope] Scope to pass for callback, window by default
+     * @param {Object} [scope] Scope to pass for callback, global (window) by default
      * @returns {boolean} True if function was called immediately, False if added to swarm
      */
     Swarm.prototype.add = function (func, args, scope) {
@@ -125,6 +111,13 @@ var Swarm = (function () {
         return true;
     };
 
-    return Swarm;
+    if ((typeof define == 'function') && define.amd) {
+        // define Swarm as an AMD module
+        define(Swarm);
+    } else {
+        // define Swarm as a global variable, saving original variable inside it
+        Swarm.original = window.Swarm;
+        window.Swarm = Swarm;
+    }
 
-})();
+}());
